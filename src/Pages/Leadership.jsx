@@ -3,18 +3,10 @@ import { FaArrowRight, FaCheck, FaShieldAlt, FaRocket, FaCog } from "react-icons
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white dark:bg-black">
+    <div className="min-h-screen bg-slate-50 dark:bg-black">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-[0.4] dark:opacity-0"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle, rgb(15 23 42 / 0.08) 1px, transparent 1px)",
-            backgroundSize: "24px 24px",
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white dark:from-slate-950 dark:via-black dark:to-black" />
+        <div className="absolute inset-0 bg-slate-50 dark:bg-gradient-to-b dark:from-slate-950 dark:via-black dark:to-black" />
 
         <div className="relative mx-auto max-w-7xl px-6 py-24 pt-32">
           <motion.div
