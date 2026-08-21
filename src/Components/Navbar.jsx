@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import {
   FaBars,
   FaTimes,
@@ -12,39 +12,66 @@ import ThemeToggle from "./ThemeToggle";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { pathname } = useLocation();
+
+  // Close mobile menu when navigating
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  // Prevent background scrolling while mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
 
   const linkClass = ({ isActive }) =>
-    `relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+    `relative rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-200 ${
       isActive
-        ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white"
-        : "text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-white"
+        ? "bg-white/[0.08] text-white shadow-sm ring-1 ring-white/[0.06]"
+        : "text-slate-400 hover:bg-white/[0.04] hover:text-slate-100"
     }`;
 
   const mobileLinkClass = ({ isActive }) =>
-    `flex items-center gap-3 rounded-lg px-4 py-3 text-base font-medium transition-all duration-200 ${
+    `flex w-full items-center gap-4 rounded-xl px-4 py-3.5 text-base font-medium transition-all duration-200 ${
       isActive
-        ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white"
-        : "text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-white"
+        ? "bg-white/[0.08] text-white ring-1 ring-white/[0.06]"
+        : "text-slate-400 hover:bg-white/[0.04] hover:text-slate-100"
     }`;
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-lg dark:border-slate-800 dark:bg-black/80">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+      {/* Keep ThemeToggle imported for future use.
+          Temporarily disabled from the UI while the site is dark-only. */}
+
+      <nav className="fixed inset-x-0 top-0 z-50 border-b border-slate-800/70 bg-slate-950/90 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
           {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-lg bg-slate-900 dark:bg-white flex items-center justify-center">
-              <span className="text-white dark:text-slate-900 font-bold text-lg">SH</span>
+          <NavLink
+            to="/"
+            className="group flex items-center gap-2.5"
+            aria-label="SwaffHolding home"
+          >
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white transition-transform duration-200 group-hover:scale-[1.03]">
+              <span className="text-sm font-bold tracking-tight text-slate-950">
+                SH
+              </span>
             </div>
 
-            <div className="leading-tight">
-              <h1 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">
-                Swaff<span className="text-slate-400 dark:text-slate-500 font-medium">Holding</span>
-              </h1>
+            <div className="leading-none">
+              <div className="text-base font-bold tracking-tight text-white sm:text-lg">
+                Swaff
+                <span className="font-medium text-slate-500">
+                  Holding
+                </span>
+              </div>
             </div>
-          </div>
+          </NavLink>
 
-          {/* Desktop Menu */}
+          {/* Desktop Navigation */}
           <div className="hidden items-center gap-1 md:flex">
             <NavLink to="/" className={linkClass} end>
               Home
@@ -62,69 +89,91 @@ function Navbar() {
               Contact Us
             </NavLink>
 
-            <div className="ml-4 pl-4 border-l border-slate-200 dark:border-slate-800">
+            {/* Theme toggle intentionally disabled for now */}
+            <div className="hidden">
               <ThemeToggle />
             </div>
           </div>
 
-          {/* Mobile controls */}
-          <div className="flex items-center gap-2 md:hidden">
-            <ThemeToggle />
+          {/* Mobile Controls */}
+          <div className="flex items-center md:hidden">
+            {/* Theme toggle intentionally disabled for now */}
+            <div className="hidden">
+              <ThemeToggle />
+            </div>
 
             <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="rounded-lg p-2 text-slate-700 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+              type="button"
+              onClick={() => setMenuOpen(true)}
+              aria-label="Open navigation menu"
+              aria-expanded={menuOpen}
+              className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-400 transition-all duration-200 hover:bg-white/[0.05] hover:text-white active:bg-white/[0.08]"
             >
-              {menuOpen ? <FaTimes /> : <FaBars />}
+              <FaBars className="text-lg" />
             </button>
           </div>
         </div>
       </nav>
 
-      {/* Overlay */}
+      {/* Mobile Overlay */}
       <div
         onClick={() => setMenuOpen(false)}
-        className={`fixed inset-0 z-40 bg-black/20 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
-          menuOpen ? "opacity-100" : "pointer-events-none opacity-0"
+        aria-hidden="true"
+        className={`fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
+          menuOpen
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0"
         }`}
       />
 
-      {/* Drawer */}
-      <div
-        className={`fixed top-0 right-0 z-50 h-full w-72 bg-white dark:bg-black shadow-2xl transition-transform duration-300 ease-out md:hidden ${
+      {/* Mobile Drawer */}
+      <aside
+        aria-label="Mobile navigation"
+        className={`fixed right-0 top-0 z-[70] flex h-dvh w-[min(86vw,360px)] flex-col border-l border-slate-800 bg-slate-950 shadow-2xl shadow-black/50 transition-transform duration-300 ease-out md:hidden ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-900 p-6">
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-lg bg-slate-900 dark:bg-white flex items-center justify-center">
-              <span className="text-white dark:text-slate-900 font-bold text-lg">F</span>
+        {/* Drawer Header */}
+        <div className="flex h-16 shrink-0 items-center justify-between border-b border-slate-800 px-4 sm:px-6">
+          <NavLink
+            to="/"
+            onClick={() => setMenuOpen(false)}
+            className="group flex items-center gap-2.5"
+          >
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white">
+              <span className="text-sm font-bold tracking-tight text-slate-950">
+                SH
+              </span>
             </div>
 
-            <div>
-              <h2 className="font-bold text-slate-900 dark:text-white">
-                Swaff<span className="text-slate-400 dark:text-slate-500 font-medium">Holding</span>
-              </h2>
+            <div className="text-base font-bold tracking-tight text-white">
+              Swaff
+              <span className="font-medium text-slate-500">
+                Holding
+              </span>
             </div>
-          </div>
+          </NavLink>
 
           <button
+            type="button"
             onClick={() => setMenuOpen(false)}
-            className="rounded-lg p-2 text-slate-700 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+            aria-label="Close navigation menu"
+            className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-400 transition-colors hover:bg-white/[0.05] hover:text-white"
           >
-            <FaTimes />
+            <FaTimes className="text-lg" />
           </button>
         </div>
 
-        <div className="flex flex-col gap-1 p-4">
+        {/* Drawer Navigation */}
+        <div className="flex flex-1 flex-col gap-1 overflow-y-auto p-4 sm:p-5">
           <NavLink
             to="/"
             className={mobileLinkClass}
             onClick={() => setMenuOpen(false)}
             end
           >
-            <FaHome className="text-slate-500" />
-            Home
+            <FaHome className="shrink-0 text-sm text-slate-500" />
+            <span>Home</span>
           </NavLink>
 
           <NavLink
@@ -132,8 +181,8 @@ function Navbar() {
             className={mobileLinkClass}
             onClick={() => setMenuOpen(false)}
           >
-            <FaBriefcase className="text-slate-500" />
-            Our Business
+            <FaBriefcase className="shrink-0 text-sm text-slate-500" />
+            <span>Our Business</span>
           </NavLink>
 
           <NavLink
@@ -141,8 +190,8 @@ function Navbar() {
             className={mobileLinkClass}
             onClick={() => setMenuOpen(false)}
           >
-            <FaUsers className="text-slate-500" />
-            Leadership
+            <FaUsers className="shrink-0 text-sm text-slate-500" />
+            <span>Leadership</span>
           </NavLink>
 
           <NavLink
@@ -150,11 +199,24 @@ function Navbar() {
             className={mobileLinkClass}
             onClick={() => setMenuOpen(false)}
           >
-            <FaEnvelope className="text-slate-500" />
-            Contact Us
+            <FaEnvelope className="shrink-0 text-sm text-slate-500" />
+            <span>Contact Us</span>
           </NavLink>
         </div>
-      </div>
+
+        {/* Drawer Footer */}
+        <div className="border-t border-slate-800 p-4 sm:p-5">
+          <div className="mb-3 h-px w-10 bg-indigo-500/60" />
+
+          <p className="text-xs font-medium uppercase tracking-widest text-slate-600">
+            SwaffHolding
+          </p>
+
+          <p className="mt-1 text-xs leading-relaxed text-slate-500">
+            Logistics &amp; Consulting
+          </p>
+        </div>
+      </aside>
     </>
   );
 }
