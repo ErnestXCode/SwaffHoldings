@@ -13,10 +13,10 @@ function MainLayout() {
 
   return (
     <ThemeProvider>
-      <div className="flex min-h-screen flex-col bg-slate-50 dark:bg-slate-950">
+      <div className="flex min-h-screen w-full flex-col overflow-x-hidden bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white">
         <Navbar />
 
-        <main className="w-full flex-1 pt-20">
+        <main className="w-full min-w-0 flex-1 pt-16 sm:pt-20">
           <Outlet />
         </main>
 

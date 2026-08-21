@@ -1,142 +1,250 @@
 import { motion } from "framer-motion";
-import { FaArrowRight, FaLightbulb, FaChartBar, FaCogs, FaGlobe, FaUsers, FaHandshake } from "react-icons/fa";
+import {
+  FaArrowRight,
+  FaTruck,
+  FaChartLine,
+  FaRoute,
+  FaHandshake,
+} from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const businessAreas = [
   {
-    icon: FaLightbulb,
+    icon: FaTruck,
+    number: "01",
+    title: "Logistics",
+    description:
+      "Reliable logistics solutions designed to move goods efficiently and keep businesses connected to their markets.",
+    details: [
+      "Transportation coordination",
+      "Delivery management",
+      "Supply chain support",
+      "Logistics planning",
+    ],
+  },
+  {
+    icon: FaChartLine,
+    number: "02",
     title: "Consulting",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    details: ["Strategic planning", "Market analysis", "Process optimization", "Risk assessment"]
+    description:
+      "Practical business advisory services helping organizations make better decisions, improve performance and pursue sustainable growth.",
+    details: [
+      "Business strategy",
+      "Market analysis",
+      "Operational improvement",
+      "Growth advisory",
+    ],
   },
-  {
-    icon: FaChartBar,
-    title: "Analytics",
-    description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    details: ["Data visualization", "Predictive modeling", "Performance metrics", "Business intelligence"]
-  },
-  {
-    icon: FaCogs,
-    title: "Engineering",
-    description: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-    details: ["System architecture", "Software development", "Quality assurance", "DevOps"]
-  },
-  {
-    icon: FaGlobe,
-    title: "Digital Solutions",
-    description: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    details: ["Web applications", "Mobile platforms", "Cloud services", "API integration"]
-  },
-  {
-    icon: FaUsers,
-    title: "Managed Services",
-    description: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.",
-    details: ["24/7 monitoring", "Technical support", "Infrastructure management", "Security operations"]
-  },
-  {
-    icon: FaHandshake,
-    title: "Partnerships",
-    description: "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur.",
-    details: ["Strategic alliances", "Vendor management", "Joint ventures", "Channel partnerships"]
-  }
 ];
 
 export default function OurBusiness() {
   return (
-    <div className="min-h-screen bg-white dark:bg-black">
-      {/* Header */}
-      <div className="border-b border-slate-100 dark:border-slate-900">
-        <div className="mx-auto max-w-7xl px-6 py-24 pt-32">
+    <div className="min-h-screen overflow-hidden bg-white dark:bg-black">
+      {/* Hero */}
+      <section className="relative isolate overflow-hidden border-b border-slate-200 dark:border-slate-900">
+        <div className="absolute inset-0 -z-20 bg-gradient-to-b from-white via-slate-50 to-white dark:from-black dark:via-slate-950 dark:to-black" />
+
+        <div className="absolute left-[10%] top-0 -z-10 h-96 w-96 rounded-full bg-indigo-500/[0.07] blur-[120px]" />
+
+        <div className="mx-auto max-w-7xl px-6 pb-24 pt-36 lg:pb-28 lg:pt-44">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-3xl"
+            transition={{ duration: 0.65 }}
+            className="max-w-4xl"
           >
-            <span className="text-sm font-medium text-slate-500 dark:text-slate-500 uppercase tracking-widest mb-6 block">
-              Our Business
-            </span>
-            <h1 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">
-              Multiple divisions,
-              <span className="block text-slate-400 dark:text-slate-600">one mission</span>
+            <div className="mb-7 flex items-center gap-3">
+              <div className="h-px w-10 bg-indigo-500" />
+
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">
+                Our Business
+              </span>
+            </div>
+
+            <h1 className="text-5xl font-bold leading-[0.98] tracking-[-0.04em] text-slate-950 md:text-7xl dark:text-white">
+              Moving business
+              <span className="block text-indigo-600">
+                forward.
+              </span>
             </h1>
-            <p className="text-lg text-slate-500 dark:text-slate-400 font-light leading-relaxed max-w-2xl">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor 
-              incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+
+            <p className="mt-8 max-w-2xl text-lg font-light leading-relaxed text-slate-600 md:text-xl dark:text-slate-400">
+              We combine dependable logistics with practical business
+              consulting to help organizations operate better and grow with
+              confidence.
             </p>
           </motion.div>
         </div>
-      </div>
+      </section>
 
-      {/* Business Areas Grid */}
-      <div className="mx-auto max-w-7xl px-6 py-24">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Business Areas */}
+      <section className="mx-auto max-w-7xl px-6 py-24 lg:py-28">
+        <div className="grid gap-6 lg:grid-cols-2">
           {businessAreas.map((area, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
+            <motion.article
+              key={area.title}
+              initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="group relative p-8 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-700 transition-all duration-300"
+              transition={{
+                duration: 0.55,
+                delay: index * 0.12,
+              }}
+              whileHover={{ y: -5 }}
+              className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 transition-all duration-300 hover:border-slate-300 hover:shadow-xl hover:shadow-slate-900/[0.05] md:p-10 dark:border-slate-800 dark:bg-black dark:hover:border-slate-700 dark:hover:shadow-none"
             >
-              <div className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-6 group-hover:bg-slate-900 dark:group-hover:bg-white transition-colors duration-300">
-                <area.icon className="text-xl text-slate-600 dark:text-slate-400 group-hover:text-white dark:group-hover:text-slate-900 transition-colors duration-300" />
-              </div>
-              
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">
-                {area.title}
-              </h3>
-              
-              <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-6">
-                {area.description}
-              </p>
-              
-              <ul className="space-y-3">
-                {area.details.map((detail, idx) => (
-                  <li key={idx} className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
-                    <div className="w-1 h-1 rounded-full bg-slate-400 dark:bg-slate-600 flex-shrink-0" />
-                    {detail}
-                  </li>
-                ))}
-              </ul>
+              <div className="absolute right-0 top-0 h-64 w-64 rounded-full bg-indigo-500/[0.03] blur-[80px] transition-all duration-500 group-hover:bg-indigo-500/[0.08]" />
 
-              <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
-                <button className="inline-flex items-center gap-2 text-sm font-medium text-slate-900 dark:text-white group-hover:text-slate-600 dark:group-hover:text-slate-400 transition-colors duration-300">
-                  Learn more
-                  <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform" />
-                </button>
+              <div className="relative">
+                <div className="flex items-start justify-between">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-xl text-slate-700 transition-all duration-300 group-hover:bg-slate-950 group-hover:text-white dark:bg-slate-900 dark:text-slate-300 dark:group-hover:bg-white dark:group-hover:text-slate-950">
+                    <area.icon />
+                  </div>
+
+                  <span className="text-sm font-bold text-slate-200 dark:text-slate-800">
+                    {area.number}
+                  </span>
+                </div>
+
+                <h2 className="mt-10 text-3xl font-bold tracking-tight text-slate-950 dark:text-white">
+                  {area.title}
+                </h2>
+
+                <p className="mt-5 max-w-xl text-base leading-relaxed text-slate-600 dark:text-slate-400">
+                  {area.description}
+                </p>
+
+                <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                  {area.details.map((detail) => (
+                    <div
+                      key={detail}
+                      className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300"
+                    >
+                      <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-indigo-500" />
+                      {detail}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-10 border-t border-slate-100 pt-6 dark:border-slate-800">
+                  <Link
+                    to="/contact-us"
+                    className="group/link inline-flex items-center gap-2 text-sm font-semibold text-slate-950 dark:text-white"
+                  >
+                    Discuss your needs
+                    <FaArrowRight className="text-xs text-indigo-600 transition-transform duration-200 group-hover/link:translate-x-1" />
+                  </Link>
+                </div>
               </div>
-            </motion.div>
+            </motion.article>
           ))}
         </div>
-      </div>
+      </section>
 
-      {/* Bottom CTA */}
-      <div className="border-t border-slate-100 dark:border-slate-900">
+      {/* Approach */}
+      <section className="border-y border-slate-200 bg-slate-50/70 dark:border-slate-900 dark:bg-slate-950/40">
         <div className="mx-auto max-w-7xl px-6 py-24">
+          <div className="grid gap-16 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">
+                Our approach
+              </span>
+
+              <h2 className="mt-5 text-4xl font-bold tracking-tight text-slate-950 md:text-5xl dark:text-white">
+                Practical thinking.
+                <span className="block text-indigo-600">
+                  Reliable execution.
+                </span>
+              </h2>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="grid gap-8 sm:grid-cols-2"
+            >
+              <div>
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-white text-indigo-600 shadow-sm dark:bg-slate-900">
+                  <FaRoute />
+                </div>
+
+                <h3 className="font-bold text-slate-950 dark:text-white">
+                  Built around your needs
+                </h3>
+
+                <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                  We focus on understanding the problem before designing the
+                  solution.
+                </p>
+              </div>
+
+              <div>
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-white text-indigo-600 shadow-sm dark:bg-slate-900">
+                  <FaHandshake />
+                </div>
+
+                <h3 className="font-bold text-slate-950 dark:text-white">
+                  Long-term relationships
+                </h3>
+
+                <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                  We aim to become a dependable partner rather than simply
+                  another service provider.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="relative overflow-hidden bg-white py-24 dark:bg-black">
+        <div className="absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full bg-indigo-500/[0.05] blur-[100px]" />
+
+        <div className="relative mx-auto max-w-7xl px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center max-w-2xl mx-auto"
+            transition={{ duration: 0.6 }}
+            className="mx-auto max-w-3xl text-center"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight">
-              Interested in learning more?
+            <div className="mb-6 flex items-center justify-center gap-3">
+              <div className="h-px w-8 bg-indigo-500" />
+
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">
+                Let's work together
+              </span>
+
+              <div className="h-px w-8 bg-indigo-500" />
+            </div>
+
+            <h2 className="text-4xl font-bold tracking-[-0.03em] text-slate-950 md:text-5xl dark:text-white">
+              Have a business challenge?
             </h2>
-            <p className="text-lg text-slate-500 dark:text-slate-400 mb-8 font-light">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.
+
+            <p className="mx-auto mt-6 max-w-xl text-lg font-light leading-relaxed text-slate-600 dark:text-slate-400">
+              Tell us what you are working on. We would be glad to explore how
+              our logistics or consulting services can help.
             </p>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-medium text-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-all duration-200 inline-flex items-center gap-2"
+
+            <Link
+              to="/contact-us"
+              className="group mt-9 inline-flex items-center gap-3 rounded-xl bg-slate-950 px-7 py-4 font-semibold text-white shadow-lg shadow-slate-950/10 transition-all hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:shadow-none dark:hover:bg-slate-100"
             >
               Get in touch
-              <FaArrowRight className="text-sm" />
-            </motion.button>
+              <FaArrowRight className="text-sm transition-transform duration-200 group-hover:translate-x-1" />
+            </Link>
           </motion.div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
